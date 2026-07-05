@@ -1,6 +1,4 @@
-// js/ui.js
 const UI = (function() {
-  // Referencias a elementos del DOM
   const loginView = document.getElementById('loginView');
   const registerView = document.getElementById('registerView');
   const welcomeView = document.getElementById('welcomeView');
@@ -23,16 +21,13 @@ const UI = (function() {
   const showLoginBtn = document.getElementById('showLoginBtn');
   const logoutBtn = document.getElementById('logoutBtn');
 
-  // Mostrar una vista determinada
   function showView(view) {
     [loginView, registerView, welcomeView].forEach(el => el.classList.add('hidden'));
     view.classList.remove('hidden');
-    // Limpiar mensajes
     loginMessage.textContent = '';
     registerMessage.textContent = '';
   }
 
-  // Actualizar UI según la sesión
   function updateUIForSession() {
     const session = Auth.getSession();
     if (session) {
@@ -42,18 +37,15 @@ const UI = (function() {
         showView(welcomeView);
         return;
       } else {
-        Auth.clearSession(); // sesión inválida
+        Auth.clearSession();
       }
     }
     showView(loginView);
   }
 
-  // Inicializar eventos
   function init() {
-    // Cargar usuarios de ejemplo si no existen
     Auth.initDemoUsers();
 
-    // Login
     loginForm.addEventListener('submit', function(e) {
       e.preventDefault();
       const codigo = loginCodigo.value.trim();
@@ -74,7 +66,6 @@ const UI = (function() {
       }
     });
 
-    // Registro
     registerForm.addEventListener('submit', function(e) {
       e.preventDefault();
       const codigo = registerCodigo.value.trim();
@@ -119,7 +110,6 @@ const UI = (function() {
       }
     });
 
-    // Cambiar entre login y registro
     showRegisterBtn.addEventListener('click', function() {
       showView(registerView);
       registerCodigo.value = '';
@@ -135,7 +125,6 @@ const UI = (function() {
       loginMessage.textContent = '';
     });
 
-    // Cerrar sesión
     logoutBtn.addEventListener('click', function() {
       Auth.clearSession();
       updateUIForSession();
@@ -144,7 +133,6 @@ const UI = (function() {
       loginMessage.textContent = '';
     });
 
-    // Actualizar UI al cargar
     updateUIForSession();
   }
 
