@@ -1,9 +1,7 @@
-// js/auth.js
 const Auth = (function() {
   const STORAGE_KEY = 'utp_users';
   const SESSION_KEY = 'utp_session';
 
-  // Obtener todos los usuarios
   function getUsers() {
     try {
       return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
@@ -12,18 +10,15 @@ const Auth = (function() {
     }
   }
 
-  // Guardar lista de usuarios
   function saveUsers(users) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
   }
 
-  // Buscar un usuario por código
   function findUser(codigo) {
     const users = getUsers();
     return users.find(u => u.codigo.toLowerCase() === codigo.toLowerCase());
   }
 
-  // Obtener sesión actual
   function getSession() {
     try {
       return JSON.parse(localStorage.getItem(SESSION_KEY)) || null;
@@ -32,17 +27,14 @@ const Auth = (function() {
     }
   }
 
-  // Establecer sesión
   function setSession(codigo) {
     localStorage.setItem(SESSION_KEY, JSON.stringify({ codigo, timestamp: Date.now() }));
   }
 
-  // Cerrar sesión
   function clearSession() {
     localStorage.removeItem(SESSION_KEY);
   }
 
-  // Autenticar usuario
   function authenticate(codigo, clave) {
     const user = findUser(codigo);
     if (user && user.clave === clave) {
@@ -52,7 +44,6 @@ const Auth = (function() {
     return false;
   }
 
-  // Registrar nuevo usuario
   function registerUser(codigo, clave) {
     const users = getUsers();
     if (users.some(u => u.codigo.toLowerCase() === codigo.toLowerCase())) {
@@ -63,7 +54,6 @@ const Auth = (function() {
     return { success: true, message: 'Cuenta creada exitosamente.' };
   }
 
-  // Inicializar con usuarios de ejemplo (si no hay datos)
   function initDemoUsers() {
     if (getUsers().length === 0) {
       saveUsers([
@@ -73,7 +63,6 @@ const Auth = (function() {
     }
   }
 
-  // Exponer API pública
   return {
     getUsers,
     saveUsers,
